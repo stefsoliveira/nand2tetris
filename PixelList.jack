@@ -1,0 +1,58 @@
+class PixelList {
+    field Node first, last; 
+    
+   /** Constructs a list of pixels. */
+   constructor PixelList new() {
+        let first = null;
+        let last = null;
+        return this;
+
+    }
+
+    method void dispose() {
+        if (~(first=null)){
+            do first.dispose();
+        }
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void push (Node pix) {
+        if (last=null){
+            let first = pix;
+            let last = pix;
+        } else {
+            do last.setNext(pix);
+            let last = pix;
+        }
+        return;
+    }
+   
+    method void shift(){
+        var Node old;
+        let old = first;
+    
+        if(old.next() = null){
+            let first = null;
+            let last = null;
+        } else {
+            let first = old.next();
+        }
+        
+        do old.setNext(null);
+        do old.dispose();
+    
+        return;
+    }
+   
+    method Node first(){
+        return first;
+    }
+    
+    method Node last(){
+        return last;
+   
+    }
+   
+}
+

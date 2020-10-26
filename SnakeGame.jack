@@ -1,0 +1,85 @@
+class SnakeGame {
+    field Snake snake;
+
+    /** Constructs a new snake game. */
+    constructor SnakeGame new() {
+        let snake = Snake.new(256, 128); 
+        return this;
+    }
+
+    /** Disposes this game. */
+    method void dispose() {
+        do snake.dispose();
+        do grid.dispose();
+        do Memory.deAlloc(this);
+        return;
+
+    }
+
+    /** Runs the game: handles the user's inputs and moves the snake accordingly */
+    method void run() {
+        var char key;  // the key currently pressed by the user
+        var int direction;
+        var boolean exit; 
+        var boolean expand;
+        let exit = false;
+      
+        let direction = 0;
+
+        while (~exit) { 
+        
+            /*wait until the user presses a key*/
+            while (key = 0) { // 
+                let key = Keyboard.keyPressed();
+                do moveSnake(direction, expand);
+                do drawScreen();
+            }
+            
+            if (key = 81)  { let exit = true; }     // q key
+            if (key = 88)  { let expand = true; }   // x key
+            if (key = 131) { let direction = 1; }   // up arrow
+            if (key = 133) { let direction = 2; }   // down arrow
+            if (key = 130) { let direction = 3; }   // left arrow
+            if (key = 132) { let direction = 4; }   // right arrow
+
+            /*waits for the key to be released*/
+            while (~(key = 0)) { 
+                let key = Keyboard.keyPressed();
+                do moveSnake(direction, expand);
+                do drawScreen();
+                let expand = false;
+            }
+        }//end of exit
+        
+        return;
+        
+    }//end of run
+   
+    method void moveSnake(int direction, bool expand){
+   
+        if (direction = 1) { do snake.moveUp(expand);}
+        if (direction = 2) { do snake.moveDown(expand);}
+        if (direction = 3) { do snake.moveLeft(expand);}
+        if (direction = 4) { do snake.moveRight(expand);}
+        
+        do Sys.wait(5);  // delays the next movement
+        return;
+   }
+   
+   method void drawScreen(){
+         var Node pixel;
+
+         do Screen.clearScreen();
+         let pixel = snake.first();
+
+         while (~(pixel=null)){
+            do Screen.drawPixel(pixel.x(), pixel.y());
+            let pixel = pixel.next();
+        }
+        
+        return;
+     
+    }
+}
+   
+

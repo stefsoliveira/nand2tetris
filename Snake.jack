@@ -1,0 +1,92 @@
+class Snake {
+    field PixelList snakebody;
+
+    /*creates a new Snake*/
+    constructor Snake new(int x, int y) {
+        var Node pixel;
+        let pixel = Node.new(x,y);
+        let snakebody = PixelList.new();
+        do snakebody.push(pixel);
+        
+        return this;
+    }
+
+    /*disposes of a Snake*/
+    method void dispose() {
+        do snakebody.dispose();
+        do Memory.deAlloc(this);
+        return;
+
+    }
+
+    /** Moves the snake up */
+    method void moveUp(bool grow) {
+        var Node last, new_pixel;
+        let last = snakebody.last();
+        if (last.y() =0) {
+            return;
+        }
+        let new_pixel = Node.new(last.x(), last.y() -1);
+        do snakebody.push(new_pixel);
+        
+        if(~grow){
+        do snakebody.shift();
+        }
+      return;
+    }
+
+    /** Moves the snake down. */
+    method void moveDown(bool grow) {
+        var Node last, new_pixel;
+        let last = snakebody.last();
+        if (last.y() =255) {
+            return;
+        }
+        let new_pixel = Node.new(last.x(), last.y() +1);
+        do snakebody.push(new_pixel);
+        
+        if(~grow){
+            do snakebody.shift();
+        }
+        return;
+    }
+      
+    /** Moves the snake left */
+    method void moveLeft(bool grow) {
+        var Node last, new_pixel;
+        let last = snakebody.last();
+        if (last.x() = 0) {
+            return;
+        }
+        let new_pixel = Node.new(last.x() - 1, last.y());
+        do snakebody.push(new_pixel);
+        
+        if(~grow){
+            do snakebody.shift();
+        }
+      return;
+    }
+
+    /** Moves the snake right */
+    method void moveRight(bool grow) {
+        var Node last, new_pixel;
+        let last = snakebody.last();
+        if (last.x() = 511) {
+            return;
+        }
+        let new_pixel = Node.new(last.x() + 1, last.y());
+        do snakebody.push(new_pixel);
+        
+        if(~grow){
+            do snakebody.shift();
+        }
+      return;
+    }
+    
+    method Node first(){
+        return snakebody.first();
+    }
+
+}
+
+
